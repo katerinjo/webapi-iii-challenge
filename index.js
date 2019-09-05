@@ -3,4 +3,6 @@ console.log('index.js');
 
 const server = require('./server.js');
 
-server.listen(9999, () => console.log('API'));
+port = 9999;
+
+server.listen(port, () => console.log('API on port:', port));

@@ -4,8 +4,12 @@ const db = require('./userDb');
 const router = express.Router();
 
 router.post('/', validateUser, (req, res) => {
-  db.insert(req.body);
-  res.send('user added', req.body);
+  try {
+    db.insert(req.body);
+    res.status(202).json({ added: req.body });
+  } catch (error) {
+    res.status(422).send('username already exists');
+  }
 });
 
 router.post('/:id/posts', validateUserId, (req, res) => {
@@ -52,7 +56,21 @@ function validateUser(req, res, next) {
   } else if (!user.name) {
     res.status(400).json({ message: "missing required name field"});
   } else {
-    next();
+    db.get()
+      .then(users => {
+        const repeated = users.some(old => {
+          return old.name === user.name;
+        });
+        if (repeated) {
+          res.status(400).json({ message: "username already in use"});
+        } else {
+          next();
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500);
+      });
   }
 };
 

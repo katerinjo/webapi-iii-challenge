@@ -17,7 +17,15 @@ router.post('/:id/posts', validateUserId, (req, res) => {
 });
 
 router.get('/', (req, res) => {
-  res.status(200).json({ hello: "world" });
+  db.get()
+    .then(users => {
+      res.status(200).json({ users });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500);
+    });
+  
 });
 
 router.get('/:id', validateUserId, (req, res) => {

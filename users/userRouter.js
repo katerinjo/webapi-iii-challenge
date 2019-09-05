@@ -17,7 +17,7 @@ router.post('/:id/posts', validateUserId, (req, res) => {
 });
 
 router.get('/', (req, res) => {
-
+  res.status(200).json({ hello: "world" });
 });
 
 router.get('/:id', validateUserId, (req, res) => {

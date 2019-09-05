@@ -1,8 +1,8 @@
 // code away!
-console.log('index.js');
+require('dotenv').config();
 
 const server = require('./server.js');
 
-port = 9999;
+port = process.env.PORT || 4444;
 
 server.listen(port, () => console.log('API on port:', port));
